@@ -7,10 +7,13 @@ class AddressesController < ApplicationController
     @url_safe_address = URI.encode(@address)
 
     # Your code goes here.
-    # url = ?
-    # raw_data = ?
-    # parsed_data = ?
-    # @latitude = ?
-    # @longitude = ?
+    url = "http://maps.googleapis.com/maps/api/geocode/json?address=the+corner+of+Foster+and+Sheridan&sensor=false"
+    raw_data = open(url).read
+    parsed_data = JSON.parse(raw_data)
+    results = parsed_data["results"]
+    first = results[0]
+    geometry = first["geometry"]
+    @latitude = parsed_data["results"][0]["geometry"]["location"]["lat"]
+    @longitude = parsed_data["results"][0]["geometry"]["location"]["lng"]
   end
 end
